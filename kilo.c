@@ -745,7 +745,16 @@ void editorScroll() {
 void editorDrawRows(struct abuf *ab) {
   int y;
   for(y = 0; y < E.screenrows; y++) {
+
     int filerow = y + E.rowoff;
+
+    // Line Number Margins
+    char line_len_buffer[16];
+    int len_str = snprintf(line_len_buffer, sizeof(line_len_buffer), "%4d", filerow + 1);
+    abAppend(ab, "\x1b[37m\x1b[40m", 10);
+    abAppend(ab, line_len_buffer, len_str);
+    abAppend(ab, "\x1b[m  ", 5);
+
     if(filerow >= E.numrows) {
       if(E.numrows == 0 && y == E.screenrows / 3) {
         char welcome[80];
